@@ -949,7 +949,7 @@ EOF
 
     clear
     echo -e "\n${CYAN}=========================================${NC}"
-    echo -e "${GREEN}✅ DEPLOYMENT SUCCESS! (${ENGINE^^} | WS-ONLY)${NC}"
+    echo -e "${GREEN}✅ Con Fig SCRIPT DEPLOYMENT SUCCESS!HUWAG IBENTA! (${ENGINE^^} | WS-ONLY)${NC}"
     echo -e "${CYAN}=========================================${NC}"
     echo -e "${GREEN}🔗 SHORT LINK:${NC} $CANONICAL_LINK"
     echo -e "${GREEN}🌐 NETMOD HOST:${NC} $DOMAIN"
@@ -982,10 +982,11 @@ while true; do
     echo "======================================"
     echo "FIVE ENGINES GCP-XRAY DEPLOYER — WS-ONLY"
     echo "✅ UPDATED: Artifact Registry Support"
+    echo "✌️Made By Con Fig✌️"
     echo "======================================"
     echo "1) Deploy New Service to Cloud Run"
     echo "2) List All Active Cloud Run Services"
-    echo "3) Exit"
+    echo "3) Exit Con Fig Script✌️"
     echo "======================================"
 
     read -p "Select Option [1-3]: " MENU_CHOICE
