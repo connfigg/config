@@ -982,7 +982,7 @@ while true; do
     echo "======================================"
     echo "FIVE ENGINES GCP-XRAY DEPLOYER — WS-ONLY"
     echo "✅ UPDATED: Artifact Registry Support"
-    echo "✌️Made By Con Fig✌️"
+    echo "✌️ Made By Con Fig✌️"
     echo "======================================"
     echo "1) Deploy New Service to Cloud Run"
     echo "2) List All Active Cloud Run Services"
