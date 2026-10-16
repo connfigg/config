@@ -433,13 +433,13 @@ EOF
     clear
     echo ""
     echo -e "${CYAN}=========================================${NC}"
-    echo -e "${GREEN}🚀 GCP-XRAY DEPLOYER | WS-ONLY MULTI-ENGINE By Con Fig${NC}"
+    echo -e "${GREEN}GCP DEPLOYER FIVE PROXY ENGINES 2 PROTOCOLS${NC}"
     echo -e "${CYAN}=========================================${NC}"
     echo -e "${GREEN}✅ Project:${NC} $PROJECT_ID"
     echo -e "${GREEN}✅ Region:${NC} $REGION"
     echo -e "${GREEN}✅ Service Name:${NC} $CLOUD_RUN_SERVICE_NAME"
     echo -e "${GREEN}✅ Engine:${NC} $DISPLAY_ENGINE"
-    echo -e "${GREEN}✅ Protocol:${NC} WebSocket ONLY"
+    echo -e "${GREEN}✅ Protocol:${NC} Trojan & Vless WebSocket Only"
     echo -e "${GREEN}✅ Registry:${NC} Artifact Registry ✅"
     echo -e "${GREEN}✅ Scaling:${NC} Min: $MIN_INST | Max: $MAX_INST"
     echo -e "${GREEN}✅ Performance:${NC} Concurrency: $CONCURRENCY | Timeout: ${TIMEOUT}s"
@@ -949,10 +949,13 @@ EOF
 
     clear
     echo -e "\n${CYAN}=========================================${NC}"
-    echo -e "${GREEN}✅ Con Fig SCRIPT DEPLOYMENT SUCCESS!HUWAG IBENTA! (${ENGINE^^} | WS-ONLY)${NC}"
+    echo -e "${GREEN}SCRIPT DEPLOYMENT SUCCESS!"
+    echo -e "${GREEN}FIVE PROXY ENGINES 2 PROTOCOLS ONLY"
+    echo -e "${GREEN}TROJAN & VLESS WEBSOCKET ONLY"
+    echo -e "${GREEN}THIS SCRIPT IS NOT FOR SALE"
+    echo -e "${GREEN}THIS SCRIPT IS OWNED & MADE BY CON FIG"
     echo -e "${CYAN}=========================================${NC}"
     echo -e "${GREEN}🔗 SHORT LINK:${NC} $CANONICAL_LINK"
-    echo -e "${GREEN}🌐 NETMOD HOST:${NC} $DOMAIN"
     echo -e "${GREEN}💚 HEALTH CHECK:${NC} $CANONICAL_LINK/health"
     echo -e "${CYAN}-----------------------------------------${NC}"
     echo -e "${GREEN}🔌 AVAILABLE ENDPOINTS:${NC}"
@@ -980,13 +983,13 @@ EOF
 while true; do
     clear
     echo "======================================"
-    echo "FIVE ENGINES GCP-XRAY DEPLOYER — WS-ONLY"
-    echo "✅ UPDATED: Artifact Registry Support"
-    echo "✌️ Made By Con Fig✌️"
+    echo "FIVE PROXY ENGINES GCP DEPLOYER 2 PROTOCOLS"
+    echo "TROJAN & VLESS WEBSOCKET ONLY"
+    echo "THIS SCRIPT IS OWNED & MADE BY CON FIG"
     echo "======================================"
     echo "1) Deploy New Service to Cloud Run"
     echo "2) List All Active Cloud Run Services"
-    echo "3) Exit Con Fig Script✌️"
+    echo "3) Exit Script"
     echo "======================================"
 
     read -p "Select Option [1-3]: " MENU_CHOICE
