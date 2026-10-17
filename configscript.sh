@@ -950,7 +950,7 @@ EOF
     clear
     echo -e "\n${CYAN}=========================================${NC}"
     echo -e "${GREEN}SCRIPT DEPLOYMENT SUCCESS!"
-    echo -e "${GREEN}FIVE PROXY ENGINES 2 PROTOCOLS ONLY"
+    echo -e "${GREEN}FIVE PROXY ENGINES 2 PROTOCOLS"
     echo -e "${GREEN}TROJAN & VLESS WEBSOCKET ONLY"
     echo -e "${GREEN}THIS SCRIPT IS NOT FOR SALE"
     echo -e "${GREEN}THIS SCRIPT IS OWNED & MADE BY CON FIG"
