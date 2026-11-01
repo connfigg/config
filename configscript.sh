@@ -3,7 +3,7 @@ set -euo pipefail
 # =========================================
 # 🚀 GCP-XRAY MULTI-ENGINE DEPLOYER — WS-ONLY EDITION
 # ✅ ENGINES: OPENRESTY, ENVOY, HAPROXY, CADDY, SING-BOX
-# ✅ INCLUDES CUSTOM USER-AGENT HEADERS
+# ✅ INCLUDES CUSTOM USER-AGENT HEADERS & DECOY PANEL
 # ✅ UPDATE: Artifact Registry Support (Auto-Create Repo)
 # ✅ FIXED: Invalid image tag output & clean stderr logging
 # =========================================
@@ -329,46 +329,9 @@ deploy_new_service() {
     trap 'rm -rf "$BUILD_DIR"' EXIT
     cd "$BUILD_DIR" || exit 1
 
-    cat > index.html <<'EOF'
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>System Status | Cloud Gateway</title>
-<style>
-:root { --bg: #0b0f19; --card: #111827; --border: #1f2937; --text: #9ca3af; --white: #f9fafb; --green: #10b981; }
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-body { background: var(--bg); color: var(--text); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; max-width: 440px; width: 100%; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
-.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-.title { color: var(--white); font-size: 18px; font-weight: 600; }
-.badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.1); color: var(--green); padding: 4px 10px; border-radius: 9999px; font-size: 12px; font-weight: 500; }
-.dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
-.metrics { display: grid; gap: 12px; margin-bottom: 24px; }
-.metric-item { display: flex; justify-content: space-between; font-size: 14px; padding: 8px 0; border-bottom: 1px dashed var(--border); }
-.metric-item span:last-child { color: var(--white); font-weight: 500; }
-.footer { font-size: 12px; text-align: center; color: #6b7280; }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-</style>
-</head>
-<body>
-<div class="card">
-<div class="header">
-<div class="title">Application Gateway</div>
-<div class="badge"><span class="dot"></span> Operational</div>
-</div>
-<div class="metrics">
-<div class="metric-item"><span>HTTP/2 Proxy Ingress</span><span>Active</span></div>
-<div class="metric-item"><span>Global Load Balancer</span><span>Normal</span></div>
-<div class="metric-item"><span>Avg. Latency</span><span>&lt; 15ms</span></div>
-<div class="metric-item"><span>System Uptime</span><span>99.99%</span></div>
-</div>
-<div class="footer">Cloud Infrastructure &copy; 2026. All Systems Nominal.</div>
-</div>
-</body>
-</html>
-EOF
+    # Temporarily generate a placeholder so docker build works, 
+    # but we will write the final HTML with the exact $DOMAIN right after getting the URL.
+    touch index.html
 
     clear
     echo ""
@@ -887,6 +850,97 @@ EOF
     DOMAIN=$(echo "$CLOUD_RUN_URL" | sed 's|https://||')
     CANONICAL_LINK="https://$DOMAIN"
 
+    # ==============================================
+    # GENERATE INTERACTIVE DECOY PANEL (WITH $DOMAIN)
+    # ==============================================
+    cat > index.html <<EOF
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Status | Cloud Gateway</title>
+<style>
+:root { --bg: #0b0f19; --card: #111827; --border: #1f2937; --text: #9ca3af; --white: #f9fafb; --green: #10b981; --accent: #3b82f6; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+body { background: var(--bg); color: var(--text); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; max-width: 480px; width: 100%; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.title { color: var(--white); font-size: 18px; font-weight: 600; cursor: pointer; user-select: none; }
+.badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.1); color: var(--green); padding: 4px 10px; border-radius: 9999px; font-size: 12px; font-weight: 500; }
+.dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+.metrics { display: grid; gap: 10px; margin-bottom: 20px; }
+.metric-item { display: flex; justify-content: space-between; font-size: 14px; padding: 8px 0; border-bottom: 1px dashed var(--border); }
+.metric-item span:last-child { color: var(--white); font-weight: 500; }
+.config-section { display: none; margin-top: 15px; border-top: 1px solid var(--border); padding-top: 15px; }
+.config-section.active { display: block; }
+.config-box { background: #07090e; border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-bottom: 10px; font-family: monospace; font-size: 11px; color: #38bdf8; word-break: break-all; position: relative; }
+.copy-btn { background: var(--accent); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; width: 100%; margin-top: 4px; transition: background 0.2s; }
+.copy-btn:hover { background: #2563eb; }
+.footer { font-size: 12px; text-align: center; color: #6b7280; margin-top: 15px; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+</style>
+</head>
+<body>
+<div class="card">
+<div class="header">
+<div class="title" id="togglePanel" title="Click 3 times">Application Gateway</div>
+<div class="badge"><span class="dot"></span> Operational</div>
+</div>
+
+<div class="metrics" id="statusView">
+<div class="metric-item"><span>HTTP/2 Proxy Ingress</span><span>Active</span></div>
+<div class="metric-item"><span>Global Load Balancer</span><span>Normal</span></div>
+<div class="metric-item"><span>Avg. Latency</span><span>&lt; 15ms</span></div>
+<div class="metric-item"><span>System Uptime</span><span>99.99%</span></div>
+</div>
+
+<div class="config-section" id="configView">
+<p style="color: var(--white); font-size: 13px; margin-bottom: 8px; font-weight: 600;">⚡ NetMod Configs Ready:</p>
+
+<div style="font-size: 12px; color: var(--white); margin-bottom: 4px;">Trojan WS (SNI Masked):</div>
+<div class="config-box" id="trojanConfig">trojan://gcp-xray@firebaseremoteconfigrealtime.googleapis.com:443?type=ws&host=$DOMAIN&headerType=none&path=%2ftrojan-ws&security=tls&sni=firebaseremoteconfigrealtime.googleapis.com#GCP-Trojan-WS</div>
+<button class="copy-btn" onclick="copyText('trojanConfig', this)">Copy Trojan Config</button>
+
+<div style="font-size: 12px; color: var(--white); margin-top: 10px; margin-bottom: 4px;">VLESS WS (SNI Masked):</div>
+<div class="config-box" id="vlessConfig">vless://a1b2c3d4-5678-40ef-98ab-cdef01234567@firebaseremoteconfigrealtime.googleapis.com:443?encryption=none&type=ws&host=$DOMAIN&headerType=none&path=%2fvless-ws&security=tls&sni=firebaseremoteconfigrealtime.googleapis.com#GCP-VLESS-WS</div>
+<button class="copy-btn" onclick="copyText('vlessConfig', this)">Copy VLESS Config</button>
+</div>
+
+<div class="footer">Cloud Infrastructure &copy; 2026. All Systems Nominal.</div>
+</div>
+
+<script>
+let clicks = 0;
+document.getElementById('togglePanel').addEventListener('click', () => {
+    clicks++;
+    if (clicks >= 3) {
+        document.getElementById('configView').classList.toggle('active');
+        clicks = 0;
+    }
+});
+
+function copyText(elementId, btn) {
+    const text = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = "Copied! ✅";
+        btn.style.background = "#10b981";
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.background = "";
+        }, 2000);
+    });
+}
+</script>
+</body>
+</html>
+EOF
+
+    # Re-upload/Update service so the built container pulls the final index.html with the correct URL
+    gcloud builds submit --project="$PROJECT_ID" --tag "$IMAGE_TAG" . --quiet
+    gcloud run services update "$CLOUD_RUN_SERVICE_NAME" --image "$IMAGE_TAG" --region "$REGION" --project="$PROJECT_ID" --quiet
+
     clear
     echo -e "\n${CYAN}=========================================${NC}"
     echo -e "${GREEN}SCRIPT DEPLOYMENT SUCCESS!"
@@ -895,8 +949,8 @@ EOF
     echo -e "${GREEN}THIS SCRIPT IS NOT FOR SALE"
     echo -e "${GREEN}THIS SCRIPT IS OWNED & MADE BY CON FIG"
     echo -e "${CYAN}=========================================${NC}"
-    echo -e "${GREEN}🔗 SHORT LINK:${NC} $CANONICAL_LINK"
-    echo -e "${GREEN}💚 HEALTH CHECK:${NC} $CANONLink/health"
+    echo -e "${GREEN}🔗 SHORT LINK (Click 3x on Title for Configs):${NC} $CANONICAL_LINK"
+    echo -e "${GREEN}💚 HEALTH CHECK:${NC} ${CANONICAL_LINK}/health"
     echo -e "${CYAN}-----------------------------------------${NC}"
     echo -e "${GREEN}🔌 AVAILABLE ENDPOINTS:${NC}"
     echo -e " Trojan-WS: ${CANONICAL_LINK}/trojan-ws"
@@ -911,7 +965,7 @@ EOF
     echo -e " ✅ Domain & TLS Masking Engine (Fake Server Fingerprint)"
     echo -e " ✅ Anti-DDoS & Container Limits Compliance"
     echo -e " ✅ Log Cleaner & Supervisord Integration"
-    echo -e " ✅ Decoy Gateway Page (Static Asset)"
+    echo -e " ✅ Decoy Gateway Panel with NetMod One-Click Copy ✨ NEW"
     echo ""
 
     read -p "Press [Enter] to return to Main Menu..."
