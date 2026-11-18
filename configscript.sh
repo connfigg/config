@@ -360,11 +360,11 @@ deploy_new_service() {
             "listen": "127.0.0.1",
             "protocol": "trojan",
             "tag": "trojan-ws",
-            "settings": {"clients": [{"password": "gcp-xray"}]},
+            "settings": {"clients": [{"password": "araykol"}]},
             "streamSettings": {
                 "network": "ws",
                 "wsSettings": {
-                    "path": "/trojan-ws",
+                    "path": "/awit-angkol/con/pagod-na",
                     "headers": {
                         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
                     }
@@ -382,7 +382,7 @@ deploy_new_service() {
             "streamSettings": {
                 "network": "ws",
                 "wsSettings": {
-                    "path": "/vless-ws",
+                    "path": "/atrasi-kol/kay/buhi-pa",
                     "headers": {
                         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
                     }
@@ -453,7 +453,7 @@ http {
             index index.html;
         }
 
-        location /trojan-ws {
+        location /awit-angkol/con/pagod-na {
             proxy_pass http://127.0.0.1:10001;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection $connection_upgrade;
@@ -462,7 +462,7 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
 
-        location /vless-ws {
+        location /atrasi-kol/kay/buhi-pa {
             proxy_pass http://127.0.0.1:10002;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection $connection_upgrade;
