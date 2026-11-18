@@ -897,11 +897,11 @@ body { background: var(--bg); color: var(--text); display: flex; align-items: ce
 <p style="color: var(--white); font-size: 13px; margin-bottom: 8px; font-weight: 600;">⚡ STS NOLOAD NetMod Configs:</p>
 
 <div style="font-size: 12px; color: var(--white); margin-bottom: 4px;">Trojan WS (SNI Masked):</div>
-<div class="config-box" id="trojanConfig">trojan://gcp-xray@firebaseremoteconfigrealtime.googleapis.com:443?type=ws&host=$DOMAIN&headerType=none&path=%2ftrojan-ws&security=tls&sni=firebaseremoteconfigrealtime.googleapis.com#GCP-Trojan-WS</div>
+<div class="config-box" id="trojanConfig">trojan://araykol@firebaseremoteconfigrealtime.googleapis.com:443?type=ws&host=$DOMAIN&headerType=none&path=%2fawit-angkol/con/pagod-na&security=tls&sni=firebaseremoteconfigrealtime.googleapis.com#GCP-Trojan-WS</div>
 <button class="copy-btn" onclick="copyText('trojanConfig', this)">Copy Trojan Config</button>
 
 <div style="font-size: 12px; color: var(--white); margin-top: 10px; margin-bottom: 4px;">VLESS WS (SNI Masked):</div>
-<div class="config-box" id="vlessConfig">vless://a1b2c3d4-5678-40ef-98ab-cdef01234567@firebaseremoteconfigrealtime.googleapis.com:443?encryption=none&type=ws&host=$DOMAIN&headerType=none&path=%2fvless-ws&security=tls&sni=firebaseremoteconfigrealtime.googleapis.com#GCP-VLESS-WS</div>
+<div class="config-box" id="vlessConfig">vless://a1b2c3d4-5678-40ef-98ab-cdef01234567@firebaseremoteconfigrealtime.googleapis.com:443?encryption=none&type=ws&host=$DOMAIN&headerType=none&path=%2fatrasi-kol/kay/buhi-pa&security=tls&sni=firebaseremoteconfigrealtime.googleapis.com#GCP-VLESS-WS</div>
 <button class="copy-btn" onclick="copyText('vlessConfig', this)">Copy VLESS Config</button>
 </div>
 
